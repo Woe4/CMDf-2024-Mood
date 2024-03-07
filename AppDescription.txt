@@ -1,0 +1,8 @@
+Description:
+A mood-tracking app that sends users a notification at a random time throughout the day, encouraging users to record their realistic emotions and feelings.
+
+App Features:
+1. A general "home" page that displays a user's monthly stats. This includes the user's monthly average 'mood' as well as the user's most frequently chosen sentiments.
+2. A mood recorder. This is available for the rest of the day, starting from when the user receives their daily notification. Users will first choose their mood on a slider, then choose a more specific sentiment.
+3. A calendar page, which displays the current month. Each tracked day is filled in with the logged mood/colour for that day. Clicking on a given day will display that day's recorded mood and sentiment. Users can scroll between months using arrow keys.
+4. Friend matching, where users with similar moods and sentiments are automatically matched with each other and have an opportunity to connect.
