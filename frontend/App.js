@@ -1,36 +1,30 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
-import Slider from '@react-native-community/slider';
+import * as React from 'react';
+import { Text, View, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import LogMoodScreen from './LogMood';
+
+const Tab = createBottomTabNavigator();
+
+function HomeScreen() {
+  return (
+    <View style = {styles.container}>
+      <Text>Welcome home!!</Text>
+    </View>
+  )
+}
 
 export default function App() {
-  const[sliderMood, setSliderMood] = useState(0);
-
-  const handleSlideComplete = (endValue) => {
-    setSliderMood(Math.round(endValue));
-
-    console.log("slidermood: " + sliderMood);
-  };
 
   return (
-    <View style={styles.container}>
-      <Text>log your mood</Text>
-      <StatusBar style="auto" />
-      <Slider 
-        style = {{width: 300, height: 40}} 
-        minimumValue = {0} 
-        maximumValue = {100}
-        minimumTrackTintColor = "#900C3F"
-        maximumTrackTintColor = "#FFC300"
-        onValueChange={handleSlideComplete}
-        />
-      <Pressable
-        style = {styles.button}
-        onPress={() => {console.log("mood confirmed")}}>
-          <Text>confirm</Text>
-      </Pressable>
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name = "Home" component = {HomeScreen}/>
+        <Tab.Screen name = "Log Mood" component = {LogMoodScreen}/>
+      </Tab.Navigator>
+    </NavigationContainer>
   );
+  
 }
 
 const styles = StyleSheet.create({
@@ -40,14 +34,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  slider: {
-    flex: 1,
-    padding: 20
-  },
-  button: {
-    backgroundColor: "#FF5733",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 12
-  }
 });
