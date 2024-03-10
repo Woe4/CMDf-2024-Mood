@@ -1,8 +1,16 @@
 import React, {useState} from 'react';
 import {Button, StyleSheet, TextInput, View} from 'react-native';
-import {gql, useMutation} from "@apollo/client";
+import {gql, useMutation, useQuery} from "@apollo/client";
 
 export default function LoginScreen({setUser}) {
+    const GET_USER = gql`
+      query getUserData($email: String!) {
+        userByEmail(email: $email) {
+          name
+          email
+        }
+      }
+      `;
     const CREATE_USER = gql`
           mutation CreateUser($name: String!, $email: String!) {
             createUser(userData: {name: $name, email: $email}) {
@@ -16,16 +24,24 @@ export default function LoginScreen({setUser}) {
 
     const [name, setName] = useState("Name");
     const [email, setEmail] = useState("Email");
-    const [createUser, {data, loading, error}] = useMutation(CREATE_USER);
-
+    const [createUser] = useMutation(CREATE_USER);
+    const {loading: getUserLoading, error: getUserError, data: getUserData} = useQuery(GET_USER, {
+        variables: {email: email}
+    });
 
     function handleLogin() {
-        try {
-            createUser({variables: {name: name, email: email}});
-        } catch (e) {
-            console.error(e);
+        if (!getUserLoading) {
+            try {
+                if (getUserData && getUserData.userByEmail && getUserData.userByEmail.name) {
+                    setUser({name: getUserData.userByEmail.name, email: email});
+                } else {
+                    createUser({variables: {name: name, email: email}});
+                    setUser({name: name, email: email});
+                }
+            } catch (e) {
+                console.error(e);
+            }
         }
-        setUser({name: name, email: email});
     }
 
     return (
