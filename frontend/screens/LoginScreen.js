@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, StyleSheet, TextInput, View} from 'react-native';
+import {Button, StyleSheet, TextInput, View, Text} from 'react-native';
 import {gql, useMutation, useQuery} from "@apollo/client";
 
 export default function LoginScreen({setUser}) {
@@ -48,31 +48,76 @@ export default function LoginScreen({setUser}) {
         <View style={styles.container}>
             <View
                 style={{
-                    backgroundColor: '#FFFFFF',
-                    borderBottomColor: '#000000',
-                    borderBottomWidth: 1,
+                    justifyContent: 'center',
+                    borderWidth: 3, 
+                    borderRadius: 4,
+                    borderColor: '#FFD3A5',
+                    marginBottom: 35
                 }}>
-                <TextInput
-                    editable
-                    value={name}
-                    onChangeText={text => setName(text)}
-                />
+                    <Text 
+                    style={{
+                        fontSize: 30,
+                        paddingHorizontal: 15,
+                        paddingVertical: 5,
+                        fontWeight: 'bold',
+                        color: "#D38432"
+                    }}>LOGIN</Text>
             </View>
+
             <View
                 style={{
-                    backgroundColor: '#FFFFFF',
-                    borderBottomColor: '#000000',
-                    borderBottomWidth: 1,
+                    flexDirection: 'row'
                 }}>
-                <TextInput
-                    editable
-                    value={email}
-                    onChangeText={text => setEmail(text)}
-                />
+                    <Text
+                        style={{
+                            marginTop: 4,
+                            marginRight: 7,
+                            fontSize: 15
+                        }}>Name: </Text>
+                <View
+                    style={{
+                        backgroundColor: '#FFFFFF',
+                        borderColor: 'black',
+                        borderWidth: 0.75,
+                        width: 100,
+                        marginBottom: 10
+                    }}>
+                    <TextInput
+                        editable
+                        value={name}
+                        onChangeText={text => setName(text)}
+                        style={{paddingHorizontal: 2}}
+                    />
+                </View>
+            </View>
+            <View
+                style={{ flexDirection: 'row', }}>
+                <Text
+                    style={{
+                        marginTop: 4,
+                        marginRight: 7,
+                        fontSize: 15
+                    }}>Email: </Text>
+                <View
+                    style={{
+                        backgroundColor: '#FFFFFF',
+                        borderColor: 'black',
+                        borderWidth: 0.75,
+                        width: 100,
+                        marginBottom: 35
+                    }}>
+                    <TextInput
+                        editable
+                        value={email}
+                        onChangeText={text => setEmail(text)}
+                        style={{paddingHorizontal: 2}}
+                    />
+                </View>
             </View>
             <Button
                 title={"Login"}
                 onPress={handleLogin}
+                color={"#FFD3A5"}
             />
         </View>
     );
@@ -81,7 +126,7 @@ export default function LoginScreen({setUser}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#EDF5AF',
+        backgroundColor: '#FFF3DA',
         alignItems: 'center',
         justifyContent: 'center',
     },
