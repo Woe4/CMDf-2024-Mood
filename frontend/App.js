@@ -4,19 +4,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LogMoodScreen from './LogMood';
 import Notification from './Notification';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import SentimentScreen from './screens/SentimentScreen';
 
-const Tab = createBottomTabNavigator();
-
-function HomeScreen() {
-  return (
-    <View style = {styles.container}>
-      <Text>Welcome home!!</Text>
-    </View>
-  )
-}
+const Stack = createNativeStackNavigator()
 
 export default function App() {
-
   return (
     <NavigationContainer>
       <Tab.Navigator>
@@ -29,11 +22,4 @@ export default function App() {
 
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#EDF5AF',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
