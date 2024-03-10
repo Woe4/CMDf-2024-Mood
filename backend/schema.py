@@ -104,10 +104,11 @@ class AddFriendMutation(graphene.Mutation):
         user = graphene.Field(User)
         user = UserModel.objects.get(email=this_user_email)
         if (UserModel.objects.get(email=this_user_email) and (other_user_email != this_user_email)):
-            user.moods.append(other_user_email)
+            user.friends.append(other_user_email)
             success = True
         else:
             success = False
+        user.save()
 
         return AddFriendMutation(success=success)
 
