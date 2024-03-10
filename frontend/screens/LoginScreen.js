@@ -1,17 +1,30 @@
 import React, {useState} from 'react';
 import {Button, StyleSheet, TextInput, View} from 'react-native';
+import {gql, useMutation} from "@apollo/client";
 
 export default function LoginScreen({setUser}) {
+    const CREATE_USER = gql`
+          mutation CreateUser($name: String!, $email: String!) {
+            createUser(userData: {name: $name, email: $email}) {
+                user {
+                name
+                email
+              }
+            }
+          }
+    `;
+
     const [name, setName] = useState("Name");
     const [email, setEmail] = useState("Email");
+    const [createUser, {data, loading, error}] = useMutation(CREATE_USER);
 
-    function createUser(name, email) {
-        // TODO: link to endpoint
-        return undefined;
-    }
 
     function handleLogin() {
-        createUser(name, email);
+        try {
+            createUser({variables: {name: name, email: email}});
+        } catch (e) {
+            console.error(e);
+        }
         setUser({name: name, email: email});
     }
 

@@ -11,14 +11,10 @@ import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client';
 const Tab = createBottomTabNavigator();
 export const UserContext = createContext(null);
 
-import React from 'react';
-import { AppRegistry } from 'react-native';
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
-
 // Initialize Apollo Client
 const client = new ApolloClient({
-  uri: "http://128.189.91.71:5002/graphql",
-  cache: new InMemoryCache()
+    uri: "http://192.168.0.100:5002/graphql",
+    cache: new InMemoryCache()
 });
 
 export default function App() {
