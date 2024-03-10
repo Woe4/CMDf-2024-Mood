@@ -5,6 +5,7 @@ from graphene_mongo import MongoengineConnectionField, MongoengineObjectType
 from models import Mood as MoodModel
 from models import User as UserModel
 
+from mutations import *
 
 class Mood(MongoengineObjectType):
     class Meta:
@@ -18,71 +19,68 @@ class User(MongoengineObjectType):
         model = UserModel
         interfaces = (Node,)
         
-class NewUserInput(graphene.InputObjectType):
-    name = graphene.String()
-    email = graphene.String()
-
-class NewMoodInput(graphene.InputObjectType):
-    email = graphene.String()
-    positivity = graphene.Int()
-    sentiment = graphene.String()
-    sentimentword = graphene.String()
-    date = graphene.DateTime()
-    submitted = graphene.Boolean()
-
-class CreateUserMutation(graphene.Mutation):
-    user = graphene.Field(User)
-
-    class Arguments:
-        user_data = NewUserInput(required=True)
-
-    def mutate(self, info, user_data=None):
-        user = UserModel(
-            name=user_data.name,
-            email = user_data.email,
-            moods = []
-        )
-        user.save()
-
-        return CreateUserMutation(user=user)
-
-class UpdateMoodMutation(graphene.Mutation):
-    user = graphene.Field(User)
-
-    class Arguments:
-        mood_data = NewMoodInput(required=True)
-
-    @staticmethod
-    def get_user(email):
-        return UserModel.objects.get(email=email) # I DONT THINK THIS WORKS
-
-    def mutate(self, info, mood_data=None):
-        user = UpdateMoodMutation.get_user(mood_data.email)
-        mood = MoodModel(
-            positivity=mood_data.positivity,
-            sentiment = mood_data.sentiment,
-            sentimentword = mood_data.sentimentword,
-            date = mood_data.date,
-            submitted = mood_data.submitted
-        )
-        mood.save()
-        user.moods.append(mood)
-        user.save()
-
-        return CreateUserMutation(user=user)
-
 class Mutations(graphene.ObjectType):
     create_user = CreateUserMutation.Field()
     update_mood = UpdateMoodMutation.Field()
+    delete_user = DeleteUserMutation.Field()
+    add_frind = AddFriendMutation.Field()
+    delete_friend = DeleteFriendMutation.Field()
 
 class Query(graphene.ObjectType):
 	node = Node.Field()
 	all_users = MongoengineConnectionField(User)
 	user_by_email = graphene.Field(User, email = graphene.String())
-    
+
 	def resolve_user_by_email(parent, info, email):
 		return UserModel.objects.get(email=email)
-        
+
+	average_monthly_mood = graphene.Field(graphene.Int, email = graphene.String())
+
+	def resolve_average_monthly_mood(parent, info, email):
+		user = graphene.Field(UserType)
+		user = UserModel.objects.get(email=email)
+		length = 0
+		for mood in user.moods:
+			length += 1
+		if (length < 30):
+			sum = 0
+			for mood in user.moods:
+				sum += mood.positivity
+			return sum // length
+		else:
+			sum = 0
+			count = 0
+			for mood in user.moods:
+				if (length - count <= 30):
+					sum += mood.positivity
+				count += 1
+			return sum // length
+
+	average_weekly_mood = graphene.Field(graphene.Int, email = graphene.String())
+
+	def resolve_average_weekly_mood(parent, info, email):
+		user = graphene.Field(UserType)
+		user = UserModel.objects.get(email=email)
+		length = 0
+		for mood in user.moods:
+			length += 1
+		if (length < 7):
+			sum = 0
+			for mood in user.moods:
+				sum += mood.positivity
+			return sum // length
+		else:
+			sum = 0
+			count = 0
+			for mood in user.moods:
+				if (length - count <= 7):
+					sum += mood.positivity
+				count += 1
+			return sum // length
+
+
+
+            
     
 all_users_schema = graphene.Schema(query=Query, mutation=Mutations, types=[User])
 
