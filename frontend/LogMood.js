@@ -14,7 +14,8 @@ var moodStringBGlobal;
 export default function LogMoodStack() {
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+           screenOptions = {{headerShown: false}}>
             <Stack.Screen
             name="log mood"
             component={LogMoodScreen}
@@ -50,8 +51,8 @@ function LogMoodScreen({ navigation }) {
           style = {{width: 300, height: 40}} 
           minimumValue = {0} 
           maximumValue = {100}
-          minimumTrackTintColor = "#900C3F"
-          maximumTrackTintColor = "#FFC300"
+          minimumTrackTintColor = "#966FD6"
+          maximumTrackTintColor = "#FFFFFF"
           onValueChange={handleSlideComplete}
           />
         <Pressable
@@ -105,12 +106,17 @@ function SentimentScreen({navigation, route}) {
         source={require("./assets/icon.png")}
         text={moodStringBGlobal}
         />
+      <Pressable
+            style = {styles.button}
+            onPress={() => navigation.goBack()}>
+            <Text>back</Text>
+      </Pressable>
       <StatusBar style="auto" />
     </View>
     );
 }
 
-  function SummaryScreen({route}) {
+  function SummaryScreen({route, navigation}) {
     const {choice} = route.params;
     const choiceValue = Object.values({choice})[0];
 
@@ -136,20 +142,24 @@ function SentimentScreen({navigation, route}) {
           maximumValue = {100}
           value = {sliderMoodGlobal}
           disabled = {true}
-          minimumTrackTintColor = "#900C3F"
-          maximumTrackTintColor = "#FFC300"
+          minimumTrackTintColor = "#966FD6"
+          maximumTrackTintColor = "#FFFFFF"
           />
-          <Button title="finish" onPress={() => console.log("finished logging mood")} />
+          <Button title="finish" onPress={() => navigation.navigate("home")} />
+          <Pressable
+            style = {styles.button}
+            onPress={() => navigation.goBack()}>
+            <Text>back</Text>
+          </Pressable>
           <StatusBar style="auto" />
         </View>
         );
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EDF5AF',
+    backgroundColor: '#C5E5FF',
     alignItems: 'center',
     gap: 8,
     justifyContent: 'center',

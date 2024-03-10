@@ -27,7 +27,8 @@ class User(Document):
     meta = {"collection": "user"}
     name = StringField(required=True)
     email = StringField(required=True)
-    moods = ListField(ReferenceField(Mood), required=False)
+    moods = ListField(ReferenceField(Mood, required=True))
+    friends = ListField(StringField(required=True))
 
 
 # class Mood(graphene.ObjectType):
