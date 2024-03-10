@@ -2,16 +2,15 @@ import {createContext, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LogMoodScreen from './LogMood';
-import Notification from './Notification';
+import generateNotification from './Notification';
 import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from './Home';
-import generateNotification from './Notification';
 
 const Tab = createBottomTabNavigator();
-const UserContext = createContext(null);
+export const UserContext = createContext(null);
 
 export default function App() {
-  generateNotification();
+    generateNotification();
 
     const [user, setUser] = useState({name: "", email: ""});
     return (
@@ -19,8 +18,8 @@ export default function App() {
             {user.email
                 ? <NavigationContainer>
                     <Tab.Navigator>
-                        <Tab.Screen name = "Home" component = {HomeScreen}/>
-                        <Tab.Screen name = "Log Mood" component = {LogMoodScreen}/>
+                        <Tab.Screen name="Home" component={HomeScreen}/>
+                        <Tab.Screen name="Log Mood" component={LogMoodScreen}/>
                     </Tab.Navigator>
                 </NavigationContainer>
                 : <LoginScreen setUser={setUser}/>
