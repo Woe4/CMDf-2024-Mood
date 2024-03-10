@@ -8,11 +8,6 @@ import HomeScreen from './Home';
 import {AppRegistry} from 'react-native';
 import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client';
 
-const client = new ApolloClient({
-    uri: 'http://localhost:5002/graphql',
-    cache: new InMemoryCache()
-});
-
 const Tab = createBottomTabNavigator();
 export const UserContext = createContext(null);
 
