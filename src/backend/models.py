@@ -28,8 +28,8 @@ class Sentiments(Enum):
 
 class Mood(Document):
     meta = {"collection": "mood"}
-    positivity = IntField()
-    sentiment = EnumField(Sentiments, choices = [Sentiments.positive, Sentiments.negative, Sentiments.neutral])
+    #positivity = IntField()
+    sentiment = EnumField(Sentiments)
     date = DateTimeField()
     submitted = BooleanField(required=True)
 
