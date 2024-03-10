@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StatusBar} from 'expo-status-bar';
-import {Button, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Button, Pressable, StyleSheet, Text, View, ImageBackground} from 'react-native';
 import Slider from '@react-native-community/slider';
 import ImageButton from './components/ImageButton';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -45,21 +45,37 @@ function LogMoodScreen({navigation}) {
 
     return (
         <View style={styles.container}>
-            <Text>log your mood</Text>
-            <StatusBar style="auto"/>
+          <View
+                style={{
+                    justifyContent: 'center',
+                    borderWidth: 3, 
+                    borderRadius: 4,
+                    borderColor: '#FFD3A5',
+                }}>
+                    <Text 
+                    style={{
+                        fontSize: 20,
+                        paddingHorizontal: 10,
+                        paddingVertical: 5,
+                        fontWeight: 'bold',
+                        color: "#D38432"
+                    }}>Log your mood</Text>
+            </View>
             <Slider
                 style={{width: 300, height: 40}}
                 minimumValue={0}
                 maximumValue={100}
-                minimumTrackTintColor="#966FD6"
-                maximumTrackTintColor="#FFFFFF"
                 onValueChange={handleSlideComplete}
+                minimumTrackTintColor="#E59948"
+                maximumTrackTintColor="#D38432"
+                thumbTintColor='#C4711A'
             />
-            <Pressable
-                style={styles.button}
-                onPress={() => navigation.navigate("sentiment", {mood: sliderMood})}>
-                <Text>confirm</Text>
-            </Pressable>
+            <Button
+                title={"Next"}
+                onPress={() => navigation.navigate("sentiment", {mood: sliderMood})}
+                color={"#FFD3A5"}
+            />
+            <StatusBar style="auto"/>
         </View>
     );
 }
@@ -72,7 +88,7 @@ function SentimentScreen({navigation, route}) {
         if (moodNumber < 33) {
             return "sad";
         } else if (moodNumber < 66) {
-            return "okay";
+            return "okayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy";
         } else {
             return "happy"
         }
@@ -93,24 +109,43 @@ function SentimentScreen({navigation, route}) {
 
     return (
         <View style={styles.sentiment_container}>
-            <Text style={styles.sentiment_text}>sentiment?</Text>
-            <ImageButton
-                onPress={() => navigation.navigate("summary", {choice: 0})}
-                imageStyle={styles.image}
-                source={require("./assets/icon.png")}
-                text={moodStringAGlobal}
-            />
-            <ImageButton
-                onPress={() => navigation.navigate("summary", {choice: 1})}
-                imageStyle={styles.image}
-                source={require("./assets/icon.png")}
-                text={moodStringBGlobal}
-            />
+          <View
+                style={{
+                    justifyContent: 'center',
+                    borderWidth: 3, 
+                    borderRadius: 4,
+                    borderColor: '#FFD3A5',
+                }}>
+                    <Text 
+                    style={{
+                        fontSize: 20,
+                        paddingHorizontal: 10,
+                        paddingVertical: 5,
+                        fontWeight: 'bold',
+                        color: "#D38432"
+                    }}>Which sentiment resonates with you?</Text>
+            </View>
             <Pressable
-                style={styles.button}
-                onPress={() => navigation.goBack()}>
-                <Text>back</Text>
+              onPress={() => navigation.navigate("summary", {choice: 0})}
+              style={{alignItems: 'center'}}>
+            <ImageBackground source={require("./assets/bubble.png")} style={styles.image}>
+              <Text>{moodStringAGlobal}</Text>
+            </ImageBackground>
             </Pressable>
+
+            <Pressable
+              onPress={() => navigation.navigate("summary", {choice: 1})}
+              style={{alignItems: 'center'}}>
+            <ImageBackground source={require("./assets/bubble.png")} style={styles.image}>
+              <Text>{moodStringBGlobal}</Text>
+            </ImageBackground>
+            </Pressable>
+          
+            <Button
+                title={"Back"}
+                onPress={() => navigation.goBack()}
+                color={"#FFD3A5"}
+            />
             <StatusBar style="auto"/>
         </View>
     );
@@ -134,23 +169,50 @@ function SummaryScreen({route, navigation}) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.sentiment_text}>summary</Text>
-            <Text style={styles.sentiment_text}>{moodString}</Text>
+            <View
+                style={{
+                    justifyContent: 'center',
+                    borderWidth: 3, 
+                    borderRadius: 4,
+                    borderColor: '#FFD3A5',
+                }}>
+                    <Text 
+                    style={{
+                        fontSize: 25,
+                        paddingHorizontal: 10,
+                        paddingVertical: 5,
+                        fontWeight: 'bold',
+                        color: "#D38432"
+                    }}>Daily Summary</Text>
+            </View>
+            <Text style={
+              {
+                fontSize: 25,
+                fontWeight: 'bold',
+              }
+            }>{moodString}</Text>
             <Slider
                 style={{width: 300, height: 40}}
                 minimumValue={0}
                 maximumValue={100}
                 value={sliderMoodGlobal}
                 disabled={true}
-                minimumTrackTintColor="#966FD6"
-                maximumTrackTintColor="#FFFFFF"
+                minimumTrackTintColor="#E59948"
+                maximumTrackTintColor="#D38432"
+                thumbTintColor='#C4711A'
             />
-            <Button title="finish" onPress={() => navigation.navigate("home")}/>
-            <Pressable
-                style={styles.button}
-                onPress={() => navigation.goBack()}>
-                <Text>back</Text>
-            </Pressable>
+            <View style={{flexDirection: 'row', gap: 50}}>
+              <Button 
+                title={"finish"} 
+                onPress={() => navigation.navigate("home")}
+                color={"#FFD3A5"}
+              />
+              <Button
+                title={"edit"}
+                onPress={() => navigation.goBack()}
+                color={"#D3A432"}
+              />
+            </View>
             <StatusBar style="auto"/>
         </View>
     );
@@ -159,10 +221,10 @@ function SummaryScreen({route, navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#C5E5FF',
+        backgroundColor: '#FFF3DA',
         alignItems: 'center',
         gap: 8,
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
     },
     slider: {
         flex: 1,
@@ -179,14 +241,16 @@ const styles = StyleSheet.create({
     },
     sentiment_container: {
         flex: 1,
-        backgroundColor: '#C5E5FF',
+        backgroundColor: '#FFF3DA',
         alignItems: 'center',
         gap: 4,
         justifyContent: 'space-around',
     },
     image: {
-        width: 100,
-        height: 100
+        width: 150,
+        height: 150,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     sentiment_text: {
         fontSize: 20,
