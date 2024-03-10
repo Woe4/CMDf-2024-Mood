@@ -4,6 +4,10 @@ import { StyleSheet, Text, View, Pressable, FlatList} from 'react-native';
 import Slider from '@react-native-community/slider';
 import ImageButton from './components/ImageButton';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
+
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -76,6 +80,7 @@ function StatsScreen({ navigation }) {
 
 
 function HistoryScreen({ navigation }) {
+  const [selected, setSelected] = useState('');
 
     return (
         <View
@@ -86,142 +91,26 @@ function HistoryScreen({ navigation }) {
           }}>
             <Text>history</Text>
 
-            <FlatList
+        {/* <FlatList
         data={[
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'hi'},
-          {key: 'oh'},
-          {key: 'my'},
-          {key: 'oh'},
           {key: 'mango'}
         ]}
         renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-      />
+      /> */}
+        <Calendar
+          onDayPress={day => {
+          setSelected(day.dateString);
+        }}
+        markedDates={{
+          '2024-03-10': {selected: true, marked: false, selectedColor: '#FF6961'},
+          '2024-03-11': {selected: true, marked: false, selectedColor: '#FAC898'},
+          '2024-03-12': {selected: true, marked: false, selectedColor: '#FDFD96'},
+          '2024-03-13': {selected: true, marked: false, selectedColor: '#77DD77'},
+          '2024-03-14': {selected: true, marked: false, selectedColor: '#A5D7F5'},
+          '2024-03-15': {selected: true, marked: false, selectedColor: '#8974D0'},
+          '2024-03-16': {selected: true, marked: false, selectedColor: '#C3B1E1'}
+        }}
+        />
         <Pressable
             style = {styles.button}
             onPress={() => navigation.goBack()}>

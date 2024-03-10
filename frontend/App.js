@@ -10,7 +10,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name = "home" component = {HomeScreen}/>
+        <Tab.Screen name = "Home" component = {HomeScreen}/>
         <Tab.Screen name = "Log Mood" component = {LogMoodScreen}/>
         <Tab.Screen name = "Notifications" component = {Notification}/>
       </Tab.Navigator>
