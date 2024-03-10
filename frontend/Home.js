@@ -98,6 +98,12 @@ function HistoryScreen({ navigation }) {
         renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
       /> */}
         <Calendar
+          style={{
+            borderWidth: 1,
+            borderColor: 'black',
+            height: 360,
+            width: 350
+          }}
           onDayPress={day => {
           setSelected(day.dateString);
         }}
@@ -129,33 +135,10 @@ const styles = StyleSheet.create({
       gap: 8,
       justifyContent: 'center',
     },
-    slider: {
-      flex: 1,
-      padding: 20
-    },
     button: {
       backgroundColor: "#FF5733",
       paddingVertical: 5,
       paddingHorizontal: 10,
       borderRadius: 12
-    },
-    text: {
-      color: "white",
-    },
-    sentiment_container: {
-        flex: 1,
-        backgroundColor: '#C5E5FF',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 4,
-        justifyContent: 'space-around',
-    },
-    image: {
-        width: 100,
-        height: 100
-    },
-    sentiment_text: {
-        fontSize: 20,
-        fontWeight: 'bold',
-      }
+    }
   });

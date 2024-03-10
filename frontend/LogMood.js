@@ -51,8 +51,8 @@ function LogMoodScreen({ navigation }) {
           style = {{width: 300, height: 40}} 
           minimumValue = {0} 
           maximumValue = {100}
-          minimumTrackTintColor = "#900C3F"
-          maximumTrackTintColor = "#FFC300"
+          minimumTrackTintColor = "#966FD6"
+          maximumTrackTintColor = "#FFFFFF"
           onValueChange={handleSlideComplete}
           />
         <Pressable
@@ -142,8 +142,8 @@ function SentimentScreen({navigation, route}) {
           maximumValue = {100}
           value = {sliderMoodGlobal}
           disabled = {true}
-          minimumTrackTintColor = "#900C3F"
-          maximumTrackTintColor = "#FFC300"
+          minimumTrackTintColor = "#966FD6"
+          maximumTrackTintColor = "#FFFFFF"
           />
           <Button title="finish" onPress={() => navigation.navigate("home")} />
           <Pressable
@@ -159,7 +159,7 @@ function SentimentScreen({navigation, route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EDF5AF',
+    backgroundColor: '#C5E5FF',
     alignItems: 'center',
     gap: 8,
     justifyContent: 'center',
