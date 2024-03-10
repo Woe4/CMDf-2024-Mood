@@ -11,25 +11,16 @@ from mongoengine.fields import (
 )
 
 
-class PositiveSentiments(Enum):
-    JOY = "JOY"
-    SATISFACTION = "SATISFACTION"
-
-class NegativeSentiments(Enum):
-    DISAPPROVAL = "DISAPPROVAL"
-
-class NeutralSentiments(Enum):
-    CONCERN = "CONCERN"
-
 class Sentiments(Enum):
-    positive = EnumField(PositiveSentiments)
-    negative = EnumField(NegativeSentiments)
-    neutral = EnumField(NeutralSentiments)
+    POSITIVE = "POSITIVE"
+    NEGATIVE = "NEGATIVE"
+    NEUTRAL = "NEUTRAL"
 
 class Mood(Document):
     meta = {"collection": "mood"}
     positivity = IntField()
-    sentiment = EnumField(Sentiments, choices = [Sentiments.positive, Sentiments.negative, Sentiments.neutral])
+    sentiment = EnumField(Sentiments, choices = [Sentiments.POSITIVE, Sentiments.NEGATIVE, Sentiments.NEUTRAL])
+    sentimentword = StringField()
     date = DateTimeField()
     submitted = BooleanField(required=True)
 
