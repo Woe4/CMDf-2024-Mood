@@ -1,18 +1,10 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Calendar} from 'react-native-calendars';
-import {gql} from '@apollo/client';
+import {gql, useQuery} from '@apollo/client';
 import {UserContext} from "./App";
 
-const GET_USER = gql`
-  query getUserData($email: String!) {
-    userByEmail(email: $email) {
-      name
-      email
-    }
-  }
-  `;
 
 const Stack = createNativeStackNavigator();
 
@@ -91,7 +83,87 @@ function StatsScreen({navigation}) {
 
 
 function HistoryScreen({navigation}) {
+    const GET_USER_MOODS = gql`
+      query getUserData($email: String!) {
+        userByEmail(email: $email) {
+          moods {
+            edges {
+              node {
+                positivity
+                date
+              }
+            }
+          }
+        }
+      }
+      `;
+
     const [selected, setSelected] = useState('');
+    const user = useContext(UserContext);
+    const {loading: moodsLoading, error: moodsError, data: moodsData} = useQuery(GET_USER_MOODS, {
+        variables: {email: user.email ?? ""}
+    });
+    const [moods, setMoods] = useState({
+        '2024-03-03': {selected: true, marked: false, selectedColor: '#FF6961'},
+        '2024-03-04': {selected: true, marked: false, selectedColor: '#FAC898'},
+        '2024-03-05': {selected: true, marked: false, selectedColor: '#FDFD96'},
+        '2024-03-06': {selected: true, marked: false, selectedColor: '#77DD77'},
+        '2024-03-07': {selected: true, marked: false, selectedColor: '#A5D7F5'},
+        '2024-03-08': {selected: true, marked: false, selectedColor: '#8974D0'},
+        '2024-03-09': {selected: true, marked: false, selectedColor: '#C3B1E1'}
+    });
+
+    useEffect(() => {
+        function processMoods() {
+            if (moodsData && moodsData.userByEmail && moodsData.userByEmail.moods) {
+                try {
+                    const allMoods = moodsData.userByEmail.moods.edges;
+                    // Accumulate changes in a temporary object
+                    const newMoodsObj = {};
+                    allMoods.forEach((e) => {
+                        const color = numberToColor(e.node.positivity).toUpperCase();
+                        const date = e.node.date.split("T")[0];
+                        newMoodsObj[date] = {
+                            selected: true,
+                            marked: false,
+                            selectedColor: color
+                        };
+                    });
+                    // Update the state once after all changes are accumulated
+                    setMoods(prevMoods => ({
+                        ...prevMoods,
+                        ...newMoodsObj
+                    }));
+                } catch (error) {
+                    console.error("Error processing moods:", error);
+                }
+            }
+        }
+
+        processMoods();
+    }, [moodsData]);
+
+
+    function numberToColor(number) {
+        // Ensure the number is within the range of 0 to 100
+        const clampedNumber = Math.min(Math.max(number, 0), 100);
+
+        // Define the two colors
+        const color1 = [255, 105, 97]; // #FF6961
+        const color2 = [195, 177, 225]; // #C3B1E1
+
+        // Interpolate between the two colors
+        const r = Math.round(color1[0] + (color2[0] - color1[0]) * (clampedNumber / 100));
+        const g = Math.round(color1[1] + (color2[1] - color1[1]) * (clampedNumber / 100));
+        const b = Math.round(color1[2] + (color2[2] - color1[2]) * (clampedNumber / 100));
+
+        // Convert to hexadecimal format
+        const hexR = r.toString(16).padStart(2, '0');
+        const hexG = g.toString(16).padStart(2, '0');
+        const hexB = b.toString(16).padStart(2, '0');
+
+        return `#${hexR}${hexG}${hexB}`;
+    }
 
     return (
         <View
@@ -118,15 +190,7 @@ function HistoryScreen({navigation}) {
                 onDayPress={day => {
                     setSelected(day.dateString);
                 }}
-                markedDates={{
-                    '2024-03-10': {selected: true, marked: false, selectedColor: '#FF6961'},
-                    '2024-03-11': {selected: true, marked: false, selectedColor: '#FAC898'},
-                    '2024-03-12': {selected: true, marked: false, selectedColor: '#FDFD96'},
-                    '2024-03-13': {selected: true, marked: false, selectedColor: '#77DD77'},
-                    '2024-03-14': {selected: true, marked: false, selectedColor: '#A5D7F5'},
-                    '2024-03-15': {selected: true, marked: false, selectedColor: '#8974D0'},
-                    '2024-03-16': {selected: true, marked: false, selectedColor: '#C3B1E1'}
-                }}
+                markedDates={moods}
             />
             <Pressable
                 style={styles.button}
