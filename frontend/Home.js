@@ -37,13 +37,26 @@ function HomeScreen({navigation}) {
             style={{
                 flex: 1,
                 alignItems: 'center',
-                justifyContent: 'space-around',
+                justifyContent: 'space-evenly',
+                backgroundColor: "#FFF3DA",
             }}>
-            <Text>welcome {user.name}</Text>
+                <View
+                    style={{
+                        alignItmes: 'center',
+                        justifyContent: 'space-around',
+                        backgroundColor: '#FFF3DA',
+                        paddingHorizontal: 20,
+                        paddingVertical: 5,
+                        borderColor: 'black',
+                        borderWidth: 3,
+                        borderRadius: 4
+                    }}>
+                    <Text style={styles.titleText}>Welcome, {user.name}!</Text>
+                </View>
             <Pressable
                 style={styles.button}
                 onPress={() => navigation.navigate("stats")}>
-                <Text>stats</Text>
+                <Text>Statistics</Text>
             </Pressable>
         </View>
     )
@@ -57,18 +70,30 @@ function StatsScreen({navigation}) {
             style={{
                 flex: 1,
                 alignItems: 'center',
-                justifyContent: 'space-around',
+                justifyContent: 'space-evenly',
+                backgroundColor: "#FFF3DA"
             }}>
-            <Text>stats</Text>
+            <View
+                style={{
+                    alignItmes: 'center',
+                    backgroundColor: '#FFF3DA',
+                    paddingHorizontal: 20,
+                    paddingVertical: 5,
+                    borderColor: 'black',
+                    borderWidth: 3,
+                    borderRadius: 4
+                }}>
+                <Text style={styles.titleText}>Statistics</Text>
+            </View>
             <Pressable
                 style={styles.button}
                 onPress={() => navigation.navigate("history")}>
-                <Text>history</Text>
+                <Text style={styles.buttonText}>History</Text>
             </Pressable>
             <Pressable
                 style={styles.button}
                 onPress={() => navigation.goBack()}>
-                <Text>back</Text>
+                <Text style={styles.backButtonText}>Back</Text>
             </Pressable>
         </View>
     )
@@ -83,9 +108,10 @@ function HistoryScreen({navigation}) {
             style={{
                 flex: 1,
                 alignItems: 'center',
-                justifyContent: 'space-around',
+                justifyContent: 'space-evenly',
+                backgroundColor: "#FFF3DA"
             }}>
-            <Text>history</Text>
+            <Text style={styles.titleText}>History</Text>
 
             {/* <FlatList
         data={[
@@ -116,7 +142,7 @@ function HistoryScreen({navigation}) {
             <Pressable
                 style={styles.button}
                 onPress={() => navigation.goBack()}>
-                <Text>back</Text>
+                <Text style={styles.backButtonText}>back</Text>
             </Pressable>
         </View>
     )
@@ -126,15 +152,31 @@ function HistoryScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#EDF5AF',
+        backgroundColor: '#FFF3DA',
         alignItems: 'center',
         gap: 8,
         justifyContent: 'center',
     },
     button: {
-        backgroundColor: "#FF5733",
+        backgroundColor: "#A3F7FF",
         paddingVertical: 5,
         paddingHorizontal: 10,
-        borderRadius: 12
+        borderRadius: 7,
+        borderColor: "#94CFF0",
+        borderWidth: 2,
+        height: 43
+    },
+    titleText: {
+        fontWeight: 'bold',
+        fontSize: 25
+    },
+    buttonText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "black"
+    },
+    backButtonText: {
+        fontSize: 15,
+        color: 'black'
     }
 });
