@@ -1,10 +1,13 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createContext, useState} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LogMoodScreen from './LogMood';
-import HomeScreen from './Home';
 import generateNotification from './Notification';
+import LoginScreen from "./screens/LoginScreen";
+import HomeScreen from './Home';
 
 const Tab = createBottomTabNavigator();
+export const UserContext = createContext(null);
 
 import React from 'react';
 import { AppRegistry } from 'react-native';
@@ -17,18 +20,25 @@ const client = new ApolloClient({
 });
 
 export default function App() {
-  generateNotification();
+    generateNotification();
 
-  return (
+    const [user, setUser] = useState({name: "", email: ""});
+    return (
     <ApolloProvider client={client}>
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name = "Home" component = {HomeScreen}/>
-          <Tab.Screen name = "Log Mood" component = {LogMoodScreen}/>
-        </Tab.Navigator>
-      </NavigationContainer>
-    </ApolloProvider>
+          <UserContext.Provider value={user}>
+            {user.email
+                ? <NavigationContainer>
+                      <Tab.Navigator>
+                          <Tab.Screen name="Home" component={HomeScreen}/>
+                          <Tab.Screen name="Log Mood" component={LogMoodScreen}/>
+                      </Tab.Navigator>
+                  </NavigationContainer>
+                : <LoginScreen setUser={setUser}/>
+            }
+        </UserContext.Provider>
+      </ApolloProvider>
   );
+
 }
 
 AppRegistry.registerComponent('MoodTracker', () => App);

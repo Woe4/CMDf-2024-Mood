@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, FlatList} from 'react-native';
-import Slider from '@react-native-community/slider';
-import ImageButton from './components/ImageButton';
+import React, {useContext, useState} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -20,19 +17,19 @@ const Stack = createNativeStackNavigator();
 export default function HomeScreenStack() {
     return (
         <Stack.Navigator
-            screenOptions = {{headerShown: false}}
-            >
+            screenOptions={{headerShown: false}}
+        >
             <Stack.Screen
-            name="home"
-            component={HomeScreen}
+                name="home"
+                component={HomeScreen}
             />
             <Stack.Screen
-            name="stats"
-            component={StatsScreen}
+                name="stats"
+                component={StatsScreen}
             />
             <Stack.Screen
-            name="history"
-            component={HistoryScreen}
+                name="history"
+                component={HistoryScreen}
             />
         </Stack.Navigator>
     )
@@ -65,7 +62,7 @@ function HomeScreen({ navigation }) {
 }
 
 
-function StatsScreen({ navigation }) {
+function StatsScreen({navigation}) {
 
   return (
       <View
@@ -90,17 +87,17 @@ function StatsScreen({ navigation }) {
 }
 
 
-function HistoryScreen({ navigation }) {
-  const [selected, setSelected] = useState('');
+function HistoryScreen({navigation}) {
+    const [selected, setSelected] = useState('');
 
-  return (
-      <View
-          style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'space-around',
-        }}>
-          <Text>history</Text>
+    return (
+        <View
+            style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'space-around',
+            }}>
+            <Text>history</Text>
 
       {/* <FlatList
       data={[
@@ -140,16 +137,16 @@ function HistoryScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#EDF5AF',
-      alignItems: 'center',
-      gap: 8,
-      justifyContent: 'center',
+        flex: 1,
+        backgroundColor: '#EDF5AF',
+        alignItems: 'center',
+        gap: 8,
+        justifyContent: 'center',
     },
     button: {
-      backgroundColor: "#FF5733",
-      paddingVertical: 5,
-      paddingHorizontal: 10,
-      borderRadius: 12
+        backgroundColor: "#FF5733",
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 12
     }
-  });
+});
