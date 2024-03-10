@@ -5,14 +5,13 @@ import Slider from '@react-native-community/slider';
 
 export default function LogMoodScreen({ navigation }) {
     const[sliderMood, setSliderMood] = useState(0);
-
-    moodNumber = 0;
+    const[moodNumber, setMoodNumber] = useState(0);
 
     const handleSlideComplete = (endValue) => {
       setSliderMood(Math.round(endValue));
+      setMoodNumber(sliderMood);
   
       console.log("slidermood: " + sliderMood);
-      moodNumber = sliderMood;
       console.log("moodNumber: " + moodNumber);
 
     };
@@ -34,7 +33,7 @@ export default function LogMoodScreen({ navigation }) {
           onPress={() => {console.log("mood confirmed")}}>
             <Text>confirm</Text>
         </Pressable>
-        <Button title="next" onPress={() => navigation.navigate("sentiment")} />
+        <Button title="next" onPress={() => navigation.navigate("sentiment", {mood: moodNumber})} />
       </View>
     );
   }
