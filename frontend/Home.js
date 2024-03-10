@@ -8,6 +8,7 @@ const GET_USER = gql`
   query getUserData($email: String!) {
     userByEmail(email: $email) {
       name
+      email
     }
   }
   `;
