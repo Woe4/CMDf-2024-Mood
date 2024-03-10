@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LogMoodScreen from './LogMood';
-import Notification from './Notification';
+import generateNotification from './Notification';
+import { Linking } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+import * as Notifications from 'expo-notifications';
+import PushNotification from 'react-native-push-notification';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  generateNotification();
+
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name = "Log Mood" component = {LogMoodScreen}/>
-        <Tab.Screen name = "Notifications" component = {Notification}/>
+        <Tab.Screen name = "LogMood" component = {LogMoodScreen}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
