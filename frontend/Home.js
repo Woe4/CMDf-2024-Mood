@@ -56,7 +56,7 @@ function HomeScreen({navigation}) {
                         color: "#D38432"
                     }}>Welcome, {userContext.name}!</Text>
             </View>
-            <Button title="Statistics" onPress={() => navigation.navigate("history")} color={"#FFD3A5"}/>
+            <Button title="History" onPress={() => navigation.navigate("history")} color={"#FFD3A5"}/>
             {/* <Pressable
                 style={styles.button}
                 onPress={() => navigation.navigate("stats")}>
@@ -210,7 +210,7 @@ function HistoryScreen({navigation}) {
                 style={{
                     borderWidth: 1,
                     borderColor: 'black',
-                    height: 360,
+                    height: 370,
                     width: 350
                 }}
                 onDayPress={day => {
