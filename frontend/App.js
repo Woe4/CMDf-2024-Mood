@@ -13,7 +13,7 @@ export const UserContext = createContext(null);
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-    uri: "http://192.168.0.100:5002/graphql",
+    uri: "http://10.19.135.78:5002/graphql",
     cache: new InMemoryCache()
 });
 
