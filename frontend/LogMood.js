@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {StatusBar} from 'expo-status-bar';
 import {Button, Pressable, StyleSheet, Text, View} from 'react-native';
 import Slider from '@react-native-community/slider';
 import ImageButton from './components/ImageButton';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {gql, useMutation} from "@apollo/client";
+import {UserContext} from "./App";
 
 const Stack = createNativeStackNavigator();
 var sliderMoodGlobal;
@@ -12,7 +14,6 @@ var moodStringBGlobal;
 
 
 export default function LogMoodStack() {
-
     return (
         <Stack.Navigator
             screenOptions={{headerShown: false}}>
@@ -65,6 +66,7 @@ function LogMoodScreen({navigation}) {
 }
 
 function SentimentScreen({navigation, route}) {
+
     const {mood} = route.params;
     const moodNumber = Object.values({mood})[0];
 
@@ -120,6 +122,75 @@ function SummaryScreen({route, navigation}) {
     const {choice} = route.params;
     const choiceValue = Object.values({choice})[0];
 
+    const ADD_MOOD = gql`
+    mutation UpdateMood(
+    $email: String!,
+    $positivity: Int!,
+    $sentiment: String!,
+    $sentimentword: String!,
+    $date: DateTime!,
+    $submitted: Boolean!                
+) {
+    updateMood(moodData: {
+        email: $email,
+        positivity: $positivity,
+        sentiment: $sentiment,
+        sentimentword: $sentimentword,
+        date: $date,
+        submitted: $submitted }
+    ) {
+    user {
+      name
+      moods {
+        edges {
+          node {
+            date
+            sentiment
+          }
+        }
+      }
+    }
+    }
+}
+`
+
+    const [addMood] = useMutation(ADD_MOOD);
+    const user = useContext(UserContext);
+
+    function handleFinish() {
+        let moodSentiment = "";
+        if (sliderMoodGlobal < 33) {
+            moodSentiment = "NEGATIVE";
+        } else if (sliderMoodGlobal < 66) {
+            moodSentiment = "NEUTRAL";
+        } else {
+            moodSentiment = "POSITIVE";
+        }
+        addMood({
+            variables: {
+                email: user.email,
+                positivity: sliderMoodGlobal,
+                sentiment: moodSentiment,
+                sentimentword: moodString,
+                date: formatDateTimeNow(),
+                submitted: true
+            }
+        });
+        navigation.goBack();
+    }
+
+    function formatDateTimeNow() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+    }
+
     function getMoodString() {
         if (choiceValue === 0) {
             return moodStringAGlobal;
@@ -145,10 +216,10 @@ function SummaryScreen({route, navigation}) {
                 minimumTrackTintColor="#966FD6"
                 maximumTrackTintColor="#FFFFFF"
             />
-            <Button title="finish" onPress={() => navigation.navigate("home")}/>
+            <Button title="finish" onPress={handleFinish}/>
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.goBack()}>
+                onPress={() => navigation.navigate("home")}>
                 <Text>back</Text>
             </Pressable>
             <StatusBar style="auto"/>
