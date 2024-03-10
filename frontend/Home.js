@@ -1,10 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Button, Pressable, StyleSheet, Text, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Calendar} from 'react-native-calendars';
 import {gql, useQuery} from '@apollo/client';
 import {UserContext} from "./App";
-
 
 const Stack = createNativeStackNavigator();
 
@@ -39,19 +38,30 @@ function HomeScreen({navigation}) {
     // if (error) return <Text>Error! ${error.message} oof</Text>;
 
     return (
-        <View
-            style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'space-around',
-            }}>
-            <Text>Welcome {userContext.name}!</Text>
-            <Text></Text>
-            <Pressable
+        <View style={styles.container}>
+            <View
+                style={{
+                    justifyContent: 'center',
+                    borderWidth: 3,
+                    borderRadius: 4,
+                    borderColor: '#FFD3A5',
+                    marginBottom: 35
+                }}>
+                <Text
+                    style={{
+                        fontSize: 30,
+                        paddingHorizontal: 15,
+                        paddingVertical: 5,
+                        fontWeight: 'bold',
+                        color: "#D38432"
+                    }}>Welcome, {userContext.name}!</Text>
+            </View>
+            <Button title="Statistics" onPress={() => navigation.navigate("history")} color={"#FFD3A5"}/>
+            {/* <Pressable
                 style={styles.button}
                 onPress={() => navigation.navigate("stats")}>
-                <Text>stats</Text>
-            </Pressable>
+                <Text>Statistics</Text>
+            </Pressable> */}
         </View>
     )
 }
@@ -169,10 +179,26 @@ function HistoryScreen({navigation}) {
         <View
             style={{
                 flex: 1,
+                backgroundColor: '#FFF3DA',
                 alignItems: 'center',
-                justifyContent: 'space-around',
+                justifyContent: 'space-evenly',
             }}>
-            <Text>history</Text>
+            <View
+                style={{
+                    justifyContent: 'center',
+                    borderWidth: 3,
+                    borderRadius: 4,
+                    borderColor: '#FFD3A5',
+                }}>
+                <Text
+                    style={{
+                        fontSize: 30,
+                        paddingHorizontal: 15,
+                        paddingVertical: 5,
+                        fontWeight: 'bold',
+                        color: "#D38432"
+                    }}>HISTORY</Text>
+            </View>
 
             {/* <FlatList
       data={[
@@ -192,11 +218,11 @@ function HistoryScreen({navigation}) {
                 }}
                 markedDates={moods}
             />
-            <Pressable
-                style={styles.button}
-                onPress={() => navigation.goBack()}>
-                <Text>back</Text>
-            </Pressable>
+            <Button
+                title={"Back"}
+                onPress={() => navigation.goBack()}
+                color={"#FFD3A5"}
+            />
         </View>
     )
 }
@@ -205,7 +231,7 @@ function HistoryScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#EDF5AF',
+        backgroundColor: '#FFF3DA',
         alignItems: 'center',
         gap: 8,
         justifyContent: 'center',
