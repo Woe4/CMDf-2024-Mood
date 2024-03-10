@@ -1,5 +1,5 @@
 from enum import Enum
-from mongoengine import Document, EmbeddedDocument
+from mongoengine import Document
 from mongoengine.fields import (
     DateTimeField,
     ListField,
@@ -7,7 +7,6 @@ from mongoengine.fields import (
     StringField,
     IntField,
     BooleanField,
-    EnumField
 )
 
 
@@ -19,7 +18,7 @@ class Sentiments(Enum):
 class Mood(Document):
     meta = {"collection": "mood"}
     positivity = IntField()
-    sentiment = EnumField(Sentiments, choices = [Sentiments.POSITIVE, Sentiments.NEGATIVE, Sentiments.NEUTRAL])
+    sentiment = StringField()
     sentimentword = StringField()
     date = DateTimeField()
     submitted = BooleanField(required=True)
