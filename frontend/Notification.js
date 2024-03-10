@@ -17,10 +17,10 @@ export default generateNotification = async() => {
         body: 'How are you feeling today?'
       },
       trigger: {
-        seconds: Math.floor(Math.random() * 10),
-        // hour: Math.floor(Math.random() * 23) + 9,
-        // minutes: Math.floor(Math.random() * 59),
-        // seconds: Math.floor(Math.random() * 59)
+        // seconds: Math.floor(Math.random() * 10),
+        hour: Math.floor(Math.random() * 23) + 9,
+        minutes: Math.floor(Math.random() * 59),
+        seconds: Math.floor(Math.random() * 59)
       }
     })
   )
