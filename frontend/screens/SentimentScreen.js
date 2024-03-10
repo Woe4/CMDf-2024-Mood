@@ -3,32 +3,45 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button} from 'react-native';
 
 export default function SentimentScreen({ route }) {
-    const mood = route.params;
+    const { mood } = route.params;
+    const moodNumber = Object.values({mood})[0];
 
-    function setMoodString() {
-      if (0 <= moodNumber < 33) {
-        return "first";
-      } else if (33 <= moodNumber <= 66) {
-        return "second";
+    function getMoodStringA() {
+      if (moodNumber < 33) {
+        return "sad";
+      } else if (moodNumber < 66) {
+        return "okay";
       } else {
-        return "third"
+        return "happy"
       }
     }
 
+    function getMoodStringB() {
+      if (moodNumber < 33) {
+        return "angry";
+      } else if (moodNumber < 66) {
+        return "tired";
+      } else {
+        return "excited"
+      }
+    }
+
+    console.log({mood})
+    console.log(moodNumber)
     return (
     <View style={styles.container}>
       <Text style={styles.text}>sentiment?</Text>
       <ImageButton
-        onPress={() => console.log("button as component")}
+        onPress={() => console.log(getMoodStringA())}
         imageStyle={styles.image}
         source={require("../assets/icon.png")}
-        text={setMoodString()}
+        text={getMoodStringA()}
         />
       <ImageButton
-        onPress={() => console.log("button as component")}
+        onPress={() => console.log(getMoodStringB())}
         imageStyle={styles.image}
         source={require("../assets/icon.png")}
-        text={setMoodString()}
+        text={getMoodStringB()}
         />
       <StatusBar style="auto" />
     </View>
